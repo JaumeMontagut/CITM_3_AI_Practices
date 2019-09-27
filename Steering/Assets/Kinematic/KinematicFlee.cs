@@ -13,6 +13,8 @@ public class KinematicFlee : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		// TODO 6: To create flee just switch the direction to go
-	}
+        // TODO 6: To create flee just switch the direction to go
+        Vector3 direction = transform.position - move.target.transform.position;
+        move.SetMovementVelocity(direction.normalized * move.max_mov_velocity);
+    }
 }

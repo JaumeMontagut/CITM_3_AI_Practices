@@ -40,7 +40,7 @@ public class Move : MonoBehaviour {
         arrow.value = move_amout.magnitude;
 
         // TODO 5: update tank position based on final mov_velocity and deltatime
-        transform.Translate(move_amout);
+        transform.position += move_amout;
 
         // Reset movement to 0 to simplify things ...
         mov_velocity = Vector3.zero;
