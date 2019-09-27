@@ -37,7 +37,7 @@ public class Move : MonoBehaviour {
 
         // TODO 4: stretch it the arrow (arrow.value) to show how fast the tank is getting push in
         // that direction. Adjust with some factor so the arrow is visible.
-        arrow.value = /*move_amout.magnitude*/ mov_velocity.magnitude * 300;
+        arrow.value = move_amout.magnitude;
 
         // TODO 5: update tank position based on final mov_velocity and deltatime
         transform.Translate(move_amout);
