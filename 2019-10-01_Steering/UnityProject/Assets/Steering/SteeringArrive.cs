@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class SteeringArrive : MonoBehaviour {
 
@@ -32,25 +31,21 @@ public class SteeringArrive : MonoBehaviour {
         // Clamp the desired acceleration and call move.AccelerateMovement()
         if (Vector3.Distance(transform.position, target) <= min_distance)
         {
-            Vector3 desired_velocity = (target - transform.position).normalized * move.max_mov_speed;
-            Vector3 curr_velocity = move.movement;
-
             //Stop moving
             move.SetMovementVelocity(Vector3.zero);
-
-            //Calculate the new acceleration
-            Vector3 accel_dir = desired_velocity - curr_velocity;
-            float required_accel = curr_velocity.magnitude / time_to_accel;
-            required_accel = Mathf.Clamp(required_accel, -move.max_mov_acceleration, move.max_mov_acceleration);
-            move.AccelerateMovement(accel_dir * required_accel * Time.deltaTime);
         }
         else
         {
-            //Steering seek
-            Vector3 new_speed = (target - transform.position).normalized * move.max_mov_acceleration * Time.deltaTime;
-            move.AccelerateMovement(new_speed);
-        }
+            Vector3 desired_velocity = (target - transform.position).normalized * move.max_mov_speed;
+            Vector3 curr_velocity = move.movement;
 
+            //Calculate the new acceleration
+            //The acceleration required to go from the current velocity to the desired velocity
+            Vector3 new_accel = (desired_velocity - curr_velocity).normalized;
+            float new_accel_module = Mathf.Clamp(new_accel.magnitude, -move.max_mov_acceleration, move.max_mov_acceleration);
+            Vector3 new_accel_dir = new_accel.normalized;
+            move.AccelerateMovement(new_accel_dir * new_accel_module * Time.deltaTime);
+        }
 
         //TODO 4: Add a slow factor to reach the target
         // Start slowing down when we get closer to the target
