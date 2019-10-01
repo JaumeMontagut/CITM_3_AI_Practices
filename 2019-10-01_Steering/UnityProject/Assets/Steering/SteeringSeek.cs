@@ -22,7 +22,7 @@ public class SteeringSeek : MonoBehaviour {
         // TODO 1: accelerate towards our target at max_acceleration
         // use move.AccelerateMovement()
         Vector3 new_speed = (target - transform.position).normalized * move.max_mov_acceleration * Time.deltaTime;
-        move.SetMovementVelocity(move.movement + new_speed);
+        move.AccelerateMovement(new_speed);
 
     }
 }

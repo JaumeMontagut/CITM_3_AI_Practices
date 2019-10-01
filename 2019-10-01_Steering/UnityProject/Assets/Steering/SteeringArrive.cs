@@ -30,6 +30,27 @@ public class SteeringArrive : MonoBehaviour {
         // Calculate the desired acceleration using the velocity we want to achieve and the one we already have
         // Use time_to_target as the time to transition from the current velocity to the desired velocity
         // Clamp the desired acceleration and call move.AccelerateMovement()
+        if (Vector3.Distance(transform.position, target) <= min_distance)
+        {
+            Vector3 desired_velocity = (target - transform.position).normalized * move.max_mov_speed;
+            Vector3 curr_velocity = move.movement;
+
+            //Stop moving
+            move.SetMovementVelocity(Vector3.zero);
+
+            //Calculate the new acceleration
+            Vector3 accel_dir = desired_velocity - curr_velocity;
+            float required_accel = curr_velocity.magnitude / time_to_accel;
+            required_accel = Mathf.Clamp(required_accel, -move.max_mov_acceleration, move.max_mov_acceleration);
+            move.AccelerateMovement(accel_dir * required_accel * Time.deltaTime);
+        }
+        else
+        {
+            //Steering seek
+            Vector3 new_speed = (target - transform.position).normalized * move.max_mov_acceleration * Time.deltaTime;
+            move.AccelerateMovement(new_speed);
+        }
+
 
         //TODO 4: Add a slow factor to reach the target
         // Start slowing down when we get closer to the target
@@ -38,7 +59,14 @@ public class SteeringArrive : MonoBehaviour {
 
     }
 
-	void OnDrawGizmosSelected() 
+    private void OnDrawGizmos()
+    {
+        //Display the min radius
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(move.target.transform.position, min_distance);
+    }
+
+    void OnDrawGizmosSelected() 
 	{
 		// Display the explosion radius when selected
 		Gizmos.color = Color.white;
