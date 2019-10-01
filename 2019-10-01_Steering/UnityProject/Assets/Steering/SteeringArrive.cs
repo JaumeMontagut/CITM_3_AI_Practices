@@ -29,28 +29,40 @@ public class SteeringArrive : MonoBehaviour {
         // Calculate the desired acceleration using the velocity we want to achieve and the one we already have
         // Use time_to_target as the time to transition from the current velocity to the desired velocity
         // Clamp the desired acceleration and call move.AccelerateMovement()
-        if (Vector3.Distance(transform.position, target) <= min_distance)
+
+        float distance_to_trg = Vector3.Distance(transform.position, target);
+        if (distance_to_trg <= min_distance)
         {
             //Stop moving
             move.SetMovementVelocity(Vector3.zero);
         }
         else
         {
-            Vector3 desired_velocity = (target - transform.position).normalized * move.max_mov_speed;
             Vector3 curr_velocity = move.movement;
+
+            //TODO 4: Add a slow factor to reach the target
+            // Start slowing down when we get closer to the target
+            // Calculate a slow factor (0 to 1 multiplier to desired velocity)
+            // Once inside the slow radius, the further we are from it, the slower we go
+            float slow_factor = 1f;
+            if (distance_to_trg <= slow_distance)
+            {
+                slow_factor = distance_to_trg / slow_distance;
+                //If the player is above the target, it will be 0
+                //If the player is just on the radius it will be 1
+            }
+            Vector3 desired_velocity = (target - transform.position).normalized * move.max_mov_speed * slow_factor;
+
 
             //Calculate the new acceleration
             //The acceleration required to go from the current velocity to the desired velocity
             Vector3 new_accel = (desired_velocity - curr_velocity).normalized;
             float new_accel_module = Mathf.Clamp(new_accel.magnitude, -move.max_mov_acceleration, move.max_mov_acceleration);
             Vector3 new_accel_dir = new_accel.normalized;
-            move.AccelerateMovement(new_accel_dir * new_accel_module * Time.deltaTime);
+            move.AccelerateMovement(new_accel_dir * new_accel_module/* * Time.deltaTime*/);
         }
 
-        //TODO 4: Add a slow factor to reach the target
-        // Start slowing down when we get closer to the target
-        // Calculate a slow factor (0 to 1 multiplier to desired velocity)
-        // Once inside the slow radius, the further we are from it, the slower we go
+
 
     }
 
@@ -58,7 +70,7 @@ public class SteeringArrive : MonoBehaviour {
     {
         //Display the min radius
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(move.target.transform.position, min_distance);
+        Gizmos.DrawWireSphere(move.target.transform.position, slow_distance);
     }
 
     void OnDrawGizmosSelected() 
