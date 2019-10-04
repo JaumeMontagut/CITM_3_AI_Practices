@@ -52,25 +52,23 @@ public class SteeringArrive : MonoBehaviour {
                 //If the player is just on the radius it will be 1
             }
             Vector3 desired_velocity = (target - transform.position).normalized * move.max_mov_speed * slow_factor;
-
-
             //Calculate the new acceleration
             //The acceleration required to go from the current velocity to the desired velocity
-            Vector3 new_accel = (desired_velocity - curr_velocity).normalized;
+            Vector3 new_accel = desired_velocity - curr_velocity;
             float new_accel_module = Mathf.Clamp(new_accel.magnitude, -move.max_mov_acceleration, move.max_mov_acceleration);
             Vector3 new_accel_dir = new_accel.normalized;
-            move.AccelerateMovement(new_accel_dir * new_accel_module/* * Time.deltaTime*/);
+            move.AccelerateMovement(new_accel_dir * new_accel_module / Time.deltaTime);
         }
-
-
-
     }
 
     private void OnDrawGizmos()
     {
         //Display the min radius
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(move.target.transform.position, slow_distance);
+        if (move != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(move.target.transform.position, slow_distance);
+        }
     }
 
     void OnDrawGizmosSelected() 

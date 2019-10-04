@@ -53,7 +53,7 @@ public class Move : MonoBehaviour {
 
 		// rotate the arrow
 		float angle = Mathf.Atan2(movement.x, movement.z);
-		aim.transform.rotation = Quaternion.AngleAxis(Mathf.Rad2Deg * angle, Vector3.up);
+		aim.transform.rotation = Quaternion.AngleAxis(angle, Vector3.up);
 
 		// strech it
 		arrow.value = movement.magnitude * 4;
