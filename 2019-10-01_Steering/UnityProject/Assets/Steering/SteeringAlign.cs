@@ -21,12 +21,15 @@ public class SteeringAlign : MonoBehaviour {
         // Find the desired rotation and accelerate to it
         // Use Vector3.SignedAngle() to find the angle between two directions
         float desired_rotation = Vector3.SignedAngle(Vector3.forward, move.movement, Vector3.up);
-        float curr_rotation = Vector3.SignedAngle(Vector3.forward, transform.forward, Vector3.up);
-        Debug.Log("desired rotation " + desired_rotation);
-        Debug.Log("current rotation " + curr_rotation);
+        float curr_rotation = transform.localRotation.eulerAngles.y;
 
         float final_rotation = desired_rotation - curr_rotation;
+
+        //Delete additional loops
         final_rotation = (final_rotation % 360);
+
+        //Prioritize the lowest angle on a circle
+        //Example: Between be 350º and -10º we'll choose -10º
         if (Mathf.Abs(final_rotation) > 180)
         {
             float sign = Mathf.Sign(final_rotation);
@@ -34,18 +37,12 @@ public class SteeringAlign : MonoBehaviour {
             final_rotation *= -sign;
         }
 
-        Debug.Log("final rotaton" + final_rotation);
-        Debug.Log("min angle " + min_angle);
-
         if (Mathf.Abs(final_rotation) <= min_angle)
         {
-            Debug.Log("reached min angle!");
             move.SetRotationVelocity(0f);
         }
         else
         {
-            //This line is not needed since we already do it in Move::Update()
-            //final_rotation = Mathf.Clamp(final_rotation, -move.max_rot_acceleration, move.max_rot_acceleration);
             move.AccelerateRotation(final_rotation);
         }
     }
