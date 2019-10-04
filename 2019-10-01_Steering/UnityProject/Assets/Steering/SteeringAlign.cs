@@ -26,7 +26,7 @@ public class SteeringAlign : MonoBehaviour {
         float final_rotation = desired_rotation - curr_rotation;
 
         //Delete additional loops
-        final_rotation = (final_rotation % 360);
+        final_rotation %= 360;
 
         //Prioritize the lowest angle on a circle
         //Example: Between be 350º and -10º we'll choose -10º
@@ -35,6 +35,11 @@ public class SteeringAlign : MonoBehaviour {
             float sign = Mathf.Sign(final_rotation);
             final_rotation = 360 - Mathf.Abs(final_rotation);
             final_rotation *= -sign;
+        }
+
+        if (final_rotation < slow_angle)
+        {
+            final_rotation /= slow_angle;
         }
 
         if (Mathf.Abs(final_rotation) <= min_angle)
