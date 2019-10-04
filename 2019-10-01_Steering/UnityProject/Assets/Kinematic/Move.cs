@@ -6,7 +6,8 @@ public class Move : MonoBehaviour {
 
 	public GameObject target;
 	public GameObject aim;
-	public Slider arrow;
+    public Transform tank_base;
+    public Slider arrow;
 
 	public float max_mov_speed = 5.0f;
 	public float max_mov_acceleration = 0.1f;
@@ -59,7 +60,7 @@ public class Move : MonoBehaviour {
 		arrow.value = movement.magnitude * 4;
 
 		// final rotate
-		transform.rotation *= Quaternion.AngleAxis(rotation * Time.deltaTime, Vector3.up);
+		tank_base.rotation *= Quaternion.AngleAxis(rotation * Time.deltaTime, Vector3.up);
 
         // finally move
         movement.y = 0.0f;

@@ -57,7 +57,7 @@ public class SteeringArrive : MonoBehaviour {
             Vector3 new_accel = desired_velocity - curr_velocity;
             float new_accel_module = Mathf.Clamp(new_accel.magnitude, -move.max_mov_acceleration, move.max_mov_acceleration);
             Vector3 new_accel_dir = new_accel.normalized;
-            move.AccelerateMovement(new_accel_dir * new_accel_module / Time.deltaTime);
+            move.AccelerateMovement(new_accel_dir * new_accel_module/* / Time.deltaTime*/);
         }
     }
 

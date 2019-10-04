@@ -21,7 +21,7 @@ public class SteeringAlign : MonoBehaviour {
         // Find the desired rotation and accelerate to it
         // Use Vector3.SignedAngle() to find the angle between two directions
         float desired_rotation = Vector3.SignedAngle(Vector3.forward, move.movement, Vector3.up);
-        float curr_rotation = transform.localRotation.eulerAngles.y;
+        float curr_rotation = move.tank_base.localRotation.eulerAngles.y;
 
         float final_rotation = desired_rotation - curr_rotation;
 
