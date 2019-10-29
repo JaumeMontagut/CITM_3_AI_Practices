@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class SteeringAlign : MonoBehaviour {
 
@@ -10,7 +9,8 @@ public class SteeringAlign : MonoBehaviour {
 	Move move;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
 		move = GetComponent<Move>();
 	}
 
@@ -20,6 +20,35 @@ public class SteeringAlign : MonoBehaviour {
         // TODO 7: Very similar to arrive, but using angular velocities
         // Find the desired rotation and accelerate to it
         // Use Vector3.SignedAngle() to find the angle between two directions
+        float desired_rotation = Vector3.SignedAngle(Vector3.forward, move.movement, Vector3.up);
+        float curr_rotation = move.tank_base.localRotation.eulerAngles.y;
 
+        float final_rotation = desired_rotation - curr_rotation;
+
+        //Delete additional loops
+        final_rotation %= 360;
+
+        //Prioritize the lowest angle on a circle
+        //Example: Between be 350º and -10º we'll choose -10º
+        if (Mathf.Abs(final_rotation) > 180)
+        {
+            float sign = Mathf.Sign(final_rotation);
+            final_rotation = 360 - Mathf.Abs(final_rotation);
+            final_rotation *= -sign;
+        }
+
+        if (final_rotation < slow_angle)
+        {
+            final_rotation /= slow_angle;
+        }
+
+        if (Mathf.Abs(final_rotation) <= min_angle)
+        {
+            move.SetRotationVelocity(0f);
+        }
+        else
+        {
+            move.AccelerateRotation(final_rotation);
+        }
     }
 }

@@ -3499,11 +3499,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1258218286}
   aim: {fileID: 1248009676}
+  tank_base: {fileID: 1970921937}
   arrow: {fileID: 569448187}
   max_mov_speed: 5
+<<<<<<< HEAD
   max_mov_acceleration: 0.1
   max_rot_speed: 10
   max_rot_acceleration: 0.1
+=======
+  max_mov_acceleration: 1
+  max_rot_speed: 0.1
+  max_rot_acceleration: 2
+>>>>>>> 028997d0749228ae8f0edeebb432314893a8ee6e
   movement: {x: 0, y: 0, z: 0}
   rotation: 0
 --- !u!114 &1268264596
@@ -3513,7 +3520,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1268264594}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6e4f729fb7ecb4f4cb534791f38b264e, type: 3}
   m_Name: 
@@ -3634,7 +3641,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1268264594}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c1a2539257a3a4efeb46289d1eb08300, type: 3}
   m_Name: 
